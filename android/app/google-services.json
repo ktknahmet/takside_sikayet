@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "558038276823",
+    "project_id": "taksiapp-4e931",
+    "storage_bucket": "taksiapp-4e931.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558038276823:android:cf2e86e32b687a5bd72e92",
+        "android_client_info": {
+          "package_name": "com.akamedya.taksiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558038276823-vnep3h78h8r8r3rppp8h2bm33nqbchnt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.akamedya.taksiapp",
+            "certificate_hash": "9d44c4eba5277d2f9f2bf30fcbbde9ce80bfb694"
+          }
+        },
+        {
+          "client_id": "558038276823-p17bqfude069q93a8pv6scefjksgrt8k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCYt0PvZCa4LYLjVQuY-Oiqf_LiCU20r8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558038276823-p17bqfude069q93a8pv6scefjksgrt8k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
