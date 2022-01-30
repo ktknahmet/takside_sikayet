@@ -32,6 +32,8 @@ class _SikayetekleState extends State<Sikayetekle> {
   String? konu;
   String? detay;
   double puanlama = 3;
+  int begenmeSayisi=0;
+  int yorumSayisi=0;
   String? imageUrl;
   String? mail;
   String? isim;
@@ -398,13 +400,15 @@ class _SikayetekleState extends State<Sikayetekle> {
     } else {
       await databaseModel.sikayetlerim(
           plaka!.toUpperCase(),
-          konu!.toUpperCase(),
-          detay!.toUpperCase(),
+          konu!,
+          detay!,
           imageUrl,
           fotograf,
           puanlama,
-          isim!.toUpperCase(),
+          isim!,
           mail!,
+          begenmeSayisi,
+          yorumSayisi,
           false);
       sikayetGonderildi();
       Navigator.pushReplacement(context,

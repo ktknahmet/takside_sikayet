@@ -61,6 +61,7 @@ class DatabaseModel extends ChangeNotifier {
       "AdSoyad": adsoyad,
       "Begenme": yorumBegenme,
       "Uid": AuthModel().authid(),
+
     }, SetOptions(merge: true));
     notifyListeners();
   }
@@ -86,6 +87,8 @@ class DatabaseModel extends ChangeNotifier {
       double puanlamaa,
       String isim,
       String mail,
+      int begenmeSayisi,
+      int yorumSayisi,
       bool begenme) async {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy HH-mm:ss').format(now);
@@ -100,6 +103,8 @@ class DatabaseModel extends ChangeNotifier {
       "Kullanıcı": mail,
       "Tarih": formattedDate,
       "Begenme": begenme,
+      "BegenmeSayısı" :begenmeSayisi,
+      "YorumSayısı":yorumSayisi,
       "Uid": AuthModel().authid(),
     }, SetOptions(merge: true));
 
@@ -155,4 +160,6 @@ class DatabaseModel extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+
 }

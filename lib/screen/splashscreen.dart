@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:taksiapp/models/colors.dart';
 import 'package:taksiapp/screen/acilisekrani.dart';
@@ -25,6 +26,8 @@ class _SplashscreenState extends State<Splashscreen> {
       backgroundColor: MyColors().sarirenk,
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset("assets/taksibeyaz.png"),
             const SizedBox(

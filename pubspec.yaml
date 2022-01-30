@@ -16,15 +16,15 @@ dependencies:
   carousel_slider: ^4.0.0
   smooth_page_indicator: ^1.0.0+2
   cupertino_icons: ^1.0.4
-  firebase_core: ^1.11.0
-  firebase_auth: ^3.3.5
-  cloud_firestore: ^3.1.6
+  firebase_core: ^1.12.0
+  firebase_auth: ^3.3.6
+  cloud_firestore: ^3.1.7
   provider: ^6.0.2
   google_sign_in: ^5.2.3
   flutter_facebook_auth: ^4.0.1
   email_auth: ^1.0.0
   fluttertoast: ^8.0.8
-  firebase_storage: ^10.2.5
+  firebase_storage: ^10.2.6
   image_picker: ^0.8.4+5
   flutter_rating_bar: ^4.0.0
   geolocator: ^8.0.5

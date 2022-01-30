@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:taksiapp/inApp/sikayetekle.dart';
 import 'package:taksiapp/models/auth_model.dart';
 import 'package:taksiapp/models/colors.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,8 @@ class Anasayfa extends StatefulWidget {
 class _AnasayfaState extends State<Anasayfa> {
   double genislik = 0;
   double yukseklik = 0;
+  int begenmeSayisi=0;
+  int yorumSayisi=0;
   String? formatted;
   String? isim;
   String? fotograf;
@@ -45,34 +48,90 @@ class _AnasayfaState extends State<Anasayfa> {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: yukseklik / 9,
+        toolbarHeight: yukseklik / 6.5,
         backgroundColor: MyColors().sarirenk,
-        title: Image.asset(
-          "assets/taksibeyaz.png",
-          height: genislik / 3.5,
-        ),
-        centerTitle: true,
+
         automaticallyImplyLeading: false,
-        actions: [
-          FlatButton(
-            child: const Text("Şikayetlerim"),
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const TabbarAnasayfa()));
-            },
+        flexibleSpace: FlexibleSpaceBar(
+          centerTitle: true,
+          title:SizedBox(
+              height: yukseklik /6,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5,top: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: SizedBox(
+
+                            width: genislik / 1.8,
+                            height: yukseklik /7.5,
+                            child:   Align(
+                              alignment: Alignment.centerRight,
+                              child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/taksibeyaz.png",
+                                          height: genislik / 5,
+                                        ),
+                                      ],
+                                    ),
+                            ),
+                            ),
+                              ),
+
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: SizedBox(
+                              height: yukseklik/7.5,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.person_outline,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => const TabbarAnasayfa()));
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.logout,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () async {
+                                        await cikisYap();
+                                      },
+                                    ),
+                                  ],
+                                ),
+
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              )
+
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.black,
-            ),
-            onPressed: () async {
-              await cikisYap();
-            },
-          )
-        ],
+
+        ),
       ),
       body: SingleChildScrollView(
         child: Flex(
@@ -120,6 +179,17 @@ class _AnasayfaState extends State<Anasayfa> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Sikayetekle()));
+        },
+        backgroundColor: MyColors().sarirenk,
+        child: const Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
+      ),
     );
   }
 
@@ -153,124 +223,150 @@ class _AnasayfaState extends State<Anasayfa> {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot course = snapshot.data!.docs[index];
-                  return Stack(
-                    children: [
-                      Container(
+                  return SizedBox(
                         height: yukseklik / 5.2,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Row(
+                        child: Column(
                           children: [
-                            course['ProfilFoto'] == null
-                                ? const CircleAvatar(
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5,top: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  course['ProfilFoto'] == null
+                                      ? const CircleAvatar(
                                     maxRadius: 20,
                                     backgroundColor: Colors.transparent,
                                     backgroundImage:
-                                        AssetImage("assets/avatar.png"),
+                                    AssetImage("assets/avatar.png"),
                                   )
-                                : CircleAvatar(
+                                      : CircleAvatar(
                                     maxRadius: 20,
                                     backgroundColor: Colors.transparent,
                                     backgroundImage:
-                                        NetworkImage(course['ProfilFoto']),
+                                    NetworkImage(course['ProfilFoto']),
                                   ),
-                            SizedBox(
-                              width: genislik / 1.3,
-                              height: yukseklik / 6,
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      course['AdSoyad'],
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5),
-                                      child: Text(
-                                        course['Detay'],
-                                        style: const TextStyle(
-                                            fontSize: 15, color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                height: yukseklik / 5.2,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      course['Fotograf'] == null
-                                          ? const Text('')
-                                          : GestureDetector(
-                                              onTap: () {
-                                                olanFotoyuGoster(course);
-                                              },
-                                              child: const Icon(
-                                                  Icons.perm_media_outlined)),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            yorumlariGoster(course);
-                                          });
-                                        },
-                                        child: const Icon(
-                                          Icons.chat_bubble_outline,
+                                  SizedBox(
+                                    width: genislik / 1.3,
+                                    height: yukseklik /8,
+
+                                    child: SingleChildScrollView(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              course['AdSoyad'],
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 5),
+                                              child: Text(
+                                                course['Detay'],
+                                                style: const TextStyle(
+                                                    fontSize: 15, color: Colors.black),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 2,
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              begenmeGoster(course);
-                                            });
-                                          },
-                                          child: course["Begenme"]
-                                              ? const Icon(
-                                                  Icons.favorite,
-                                                  color: Colors.red,
-                                                )
-                                              : const Icon(
-                                                  Icons
-                                                      .favorite_border_outlined,
-                                                )),
-                                      const SizedBox(
-                                        height: 2,
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        color: MyColors().sarirenk,
-                                      ),
-                                      Text(
-                                        course['Puanlama'],
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: yukseklik/8,
+
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            course['Fotograf'] == null
+                                                ? const Text('')
+                                                : GestureDetector(
+                                                onTap: () {
+                                                  olanFotoyuGoster(course);
+                                                },
+                                                child: const Icon(
+                                                    Icons.perm_media_outlined)),
+                                            const SizedBox(
+                                              height: 2,
+                                            ),
+                                            Icon(
+                                              Icons.star,
+                                              color: MyColors().sarirenk,
+                                            ),
+                                            Text(
+                                              course['Puanlama'],
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
+                            ),
+                           Wrap(
+                             direction: Axis.vertical,
+                             children: [
+                               Row(
+                                 children: [
+                                   GestureDetector(
+                                     onTap: () {
+                                       setState(() {
+                                         yorumlariGoster(course);
+                                       });
+                                     },
+                                     child: const Icon(
+                                       Icons.chat_bubble_outline,
+                                     ),
+                                   ),
+                                    Padding(
+                                     padding:const  EdgeInsets.only(left: 5),
+                                     child: Text(course["YorumSayısı"].toString()),
+                                   ),
+
+                                   Padding(
+                                     padding: EdgeInsets.only(left: genislik/1.5),
+                                     child: GestureDetector(
+                                         onTap: () {
+                                           setState(() {
+                                             begenmeGoster(course);
+
+                                           });
+                                         },
+                                         child: course["Begenme"]
+                                             ? const Icon(
+                                           Icons.favorite,
+                                           color: Colors.red,
+                                         )
+                                             : const Icon(
+                                           Icons
+                                               .favorite_border_outlined,
+                                         )),
+                                   ),
+                                    Padding(
+                                     padding: const EdgeInsets.only(left: 5),
+                                     child: Text(course["BegenmeSayısı"].toString(),),
+                                   )
+                                 ],
+                               ),
+                             ],
+                           )
+                           ],
+                         )
+                        
+                      );
+
+
+
                 },
               ),
             );
@@ -309,7 +405,7 @@ class _AnasayfaState extends State<Anasayfa> {
               ),
               StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection("Sikayetlerim")
+                    .collection("Sikayetlerim").where('Puanlama' ,isGreaterThanOrEqualTo: "3.5")
                     .orderBy('Puanlama', descending: true)
                     .limit(10)
                     .snapshots(),
@@ -402,7 +498,7 @@ class _AnasayfaState extends State<Anasayfa> {
               ),
               StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection("Sikayetlerim")
+                    .collection("Sikayetlerim").where('Puanlama',isLessThan: "3.5")
                     .orderBy('Puanlama')
                     .limit(10)
                     .snapshots(),
@@ -741,34 +837,6 @@ class _AnasayfaState extends State<Anasayfa> {
         });
   }
 
-  Future olanFotoyuGoster(DocumentSnapshot documentSnapshot) async {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (builder) {
-          return SizedBox(
-            child:
-                Image.network(documentSnapshot['Fotograf'], fit: BoxFit.fill),
-          );
-        });
-  }
-
-  void begenmeGoster(DocumentSnapshot documentSnapshot) async {
-    begenme = !begenme;
-    if (begenme == false) {
-      FirebaseFirestore.instance
-          .collection('Sikayetlerim')
-          .doc(documentSnapshot.id)
-          .update({"Begenme": false});
-    }
-    if (begenme == true) {
-      FirebaseFirestore.instance
-          .collection('Sikayetlerim')
-          .doc(documentSnapshot.id)
-          .update({"Begenme": true});
-    }
-  }
-
   void yorumlariGoster(DocumentSnapshot documentSnapshot) async {
     showModalBottomSheet<void>(
         context: context,
@@ -821,14 +889,19 @@ class _AnasayfaState extends State<Anasayfa> {
                                 ),
                               ),
                               onPressed: () async {
+                                yorumSayisi++;
                                 await databaseModel.tumyorumlar(
                                     isim!,
                                     tfyorum.text,
                                     fotograf,
                                     yorumBegenme,
                                     documentSnapshot);
-
                                 tfyorum.clear();
+                                FirebaseFirestore.instance
+                                    .collection('Sikayetlerim')
+                                    .doc(documentSnapshot.id)
+                                    .update({"YorumSayısı": yorumSayisi});
+
                               })
                         ],
                       ),
@@ -968,7 +1041,6 @@ class _AnasayfaState extends State<Anasayfa> {
           );
         });
   }
-
   void yorumbegenmeGoster(DocumentSnapshot documentSnapshot) async {
     yorumBegenme = !yorumBegenme;
     if (yorumBegenme == false) {
@@ -982,9 +1054,44 @@ class _AnasayfaState extends State<Anasayfa> {
           .collection('Yorumlar')
           .doc(documentSnapshot.id)
           .update({"Begenme": true});
+
     }
   }
+  void begenmeGoster(DocumentSnapshot documentSnapshot) async {
+    begenme = !begenme;
+    if (begenme == false) {
 
+      FirebaseFirestore.instance
+          .collection('Sikayetlerim')
+          .doc(documentSnapshot.id)
+          .update({"Begenme": false});
+      FirebaseFirestore.instance
+          .collection('Sikayetlerim')
+          .doc(documentSnapshot.id)
+          .update({"BegenmeSayısı": begenmeSayisi});
+    }
+    if (begenme == true) {
+      FirebaseFirestore.instance
+          .collection('Sikayetlerim')
+          .doc(documentSnapshot.id)
+          .update({"Begenme": true});
+      FirebaseFirestore.instance
+          .collection('Sikayetlerim')
+          .doc(documentSnapshot.id)
+          .update({"BegenmeSayısı": begenmeSayisi});
+    }
+  }
+  Future olanFotoyuGoster(DocumentSnapshot documentSnapshot) async {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (builder) {
+          return SizedBox(
+            child:
+            Image.network(documentSnapshot['Fotograf'], fit: BoxFit.fill),
+          );
+        });
+  }
   void kullaniciBilgileri() async {
     FirebaseFirestore.instance
         .collection("KullanıcıBilgileri")

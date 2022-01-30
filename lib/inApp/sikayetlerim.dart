@@ -123,107 +123,76 @@ class _SikayetlerimState extends State<Sikayetlerim> {
                               yorumSil(veri);
                             });
                           },
-                          child: Stack(
+                          child:SizedBox(
+                          height: yukseklik / 5.2,
+                          child: Column(
                             children: [
-                              Container(
-                                height: yukseklik / 5.2,
-                              ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 5),
+                                padding: const EdgeInsets.only(left: 5,top: 10),
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     veri['ProfilFoto'] == null
                                         ? const CircleAvatar(
-                                            maxRadius: 20,
-                                            backgroundColor: Colors.transparent,
-                                            backgroundImage:
-                                                AssetImage("assets/avatar.png"),
-                                          )
+                                      maxRadius: 20,
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage:
+                                      AssetImage("assets/avatar.png"),
+                                    )
                                         : CircleAvatar(
-                                            maxRadius: 20,
-                                            backgroundColor: Colors.transparent,
-                                            backgroundImage: NetworkImage(
-                                                veri['ProfilFoto']),
-                                          ),
+                                      maxRadius: 20,
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage:
+                                      NetworkImage(veri['ProfilFoto']),
+                                    ),
                                     SizedBox(
                                       width: genislik / 1.3,
-                                      height: yukseklik / 6,
+                                      height: yukseklik /8,
 
                                       child: SingleChildScrollView(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              veri['AdSoyad'],
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 5),
-                                              child: Text(
-                                                veri['Detay'],
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 5),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                veri['AdSoyad'],
                                                 style: const TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.black),
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold),
                                               ),
-                                            ),
-                                          ],
+                                              const SizedBox(height: 5),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  veri['Detay'],
+                                                  style: const TextStyle(
+                                                      fontSize: 15, color: Colors.black),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                     Expanded(
                                       child: SizedBox(
-                                        height: yukseklik / 5.2,
+                                        height: yukseklik/8,
+
                                         child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 10, top: 5),
+                                          padding: const EdgeInsets.only(right: 10),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               veri['Fotograf'] == null
                                                   ? const Text('')
                                                   : GestureDetector(
-                                                      onTap: () {
-                                                        olanFotoyuGoster(veri);
-                                                      },
-                                                      child: const Icon(Icons
-                                                          .perm_media_outlined)),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    yorumlariGoster(veri);
-                                                  });
-                                                },
-                                                child: const Icon(
-                                                  Icons.chat_bubble_outline,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              veri["Begenme"]
-                                                  ? GestureDetector(
-                                                onTap: (){
-
-                                                },
-                                                    child: const Icon(
-                                                        Icons.favorite,
-                                                        color: Colors.red,
-                                                      ),
-                                                  )
-                                                  : const Icon(
-                                                      Icons
-                                                          .favorite_border_outlined,
-                                                    ),
+                                                  onTap: () {
+                                                    olanFotoyuGoster(veri);
+                                                  },
+                                                  child: const Icon(
+                                                      Icons.perm_media_outlined)),
                                               const SizedBox(
                                                 height: 2,
                                               ),
@@ -234,19 +203,61 @@ class _SikayetlerimState extends State<Sikayetlerim> {
                                               Text(
                                                 veri['Puanlama'],
                                                 style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                    fontWeight: FontWeight.bold),
                                               ),
                                             ],
                                           ),
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
+                              Wrap(
+                                direction: Axis.vertical,
+                                children: [
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            yorumlariGoster(veri);
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.chat_bubble_outline,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:const  EdgeInsets.only(left: 5),
+                                        child: Text(veri["YorumSayısı"].toString()),
+                                      ),
+
+                                      Padding(
+                                        padding: EdgeInsets.only(left: genislik/1.5),
+                                        child:  veri["Begenme"]
+                                            ? const Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                        )
+                                            : const Icon(
+                                          Icons
+                                              .favorite_border_outlined,
+                                        )
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Text(veri["BegenmeSayısı"].toString(),),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              )
                             ],
-                          ));
+                          )
+
+                      ),
+                      );
                     },
                   ),
                 );
