@@ -54,9 +54,7 @@ class _AnasayfaState extends State<Anasayfa> {
         automaticallyImplyLeading: false,
         flexibleSpace: FlexibleSpaceBar(
           centerTitle: true,
-          title:SizedBox(
-              height: yukseklik /6,
-              child: Column(
+          title: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 5,top: 10),
@@ -96,6 +94,7 @@ class _AnasayfaState extends State<Anasayfa> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     IconButton(
+                                      tooltip: "Profilim",
                                       icon: const Icon(
                                         Icons.person_outline,
                                         color: Colors.black,
@@ -108,6 +107,7 @@ class _AnasayfaState extends State<Anasayfa> {
                                       },
                                     ),
                                     IconButton(
+                                      tooltip: "Çıkış",
                                       icon: const Icon(
                                         Icons.logout,
                                         color: Colors.black,
@@ -132,7 +132,7 @@ class _AnasayfaState extends State<Anasayfa> {
           ),
 
         ),
-      ),
+
       body: SingleChildScrollView(
         child: Flex(
           direction: Axis.horizontal,
@@ -628,7 +628,7 @@ class _AnasayfaState extends State<Anasayfa> {
                 ),
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection("Sikayetlerim")
+                      .collection("Sikayetlerim").where('Puanlama',isLessThan: "3.5")
                       .orderBy('Puanlama')
                       .snapshots(),
                   builder: (BuildContext context,
@@ -723,7 +723,7 @@ class _AnasayfaState extends State<Anasayfa> {
                 ),
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection("Sikayetlerim")
+                      .collection("Sikayetlerim").where('Puanlama' ,isGreaterThanOrEqualTo: "3.5")
                       .orderBy('Puanlama', descending: true)
                       .snapshots(),
                   builder: (BuildContext context,

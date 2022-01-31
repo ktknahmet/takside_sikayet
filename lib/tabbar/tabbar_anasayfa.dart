@@ -49,6 +49,7 @@ class _TabbarAnasayfaState extends State<TabbarAnasayfa>
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
+            tooltip: "AnaSayfa",
             icon: const Icon(
               Icons.home_outlined,
               color: Colors.black,
@@ -66,6 +67,7 @@ class _TabbarAnasayfaState extends State<TabbarAnasayfa>
           ),
           actions: [
             IconButton(
+              tooltip: "Çıkış",
               icon: const Icon(
                 Icons.logout,
                 color: Colors.black,
